@@ -16,6 +16,7 @@ class PostsController < ApplicationController
 
   def create
     posts = Post.create!(post_params)
+    flash[:notice] = "投稿しました"
     redirect_to posts
   end
 
@@ -28,6 +29,7 @@ class PostsController < ApplicationController
     # post = Post.find(params[:id])
     # before_action定義したのでコメント(@を追加しているので注意)
     @post.update!(post_params)
+    flash[:notice] = "更新しました"
     redirect_to @post
   end
 
@@ -35,7 +37,7 @@ class PostsController < ApplicationController
     # post = Post.find(params[:id])
     # before_action定義したのでコメント(@を追加しているので注意)
     @post.destroy!
-    redirect_to root_path
+    redirect_to root_path, alert: "削除しました"
   end
 
   private
