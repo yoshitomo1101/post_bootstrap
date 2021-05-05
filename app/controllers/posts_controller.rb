@@ -28,7 +28,7 @@ class PostsController < ApplicationController
     # post = Post.find(params[:id])
     # before_action定義したのでコメント(@を追加しているので注意)
     @post.update!(post_params)
-    redirect_to post
+    redirect_to @post
   end
 
   def destroy
