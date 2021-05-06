@@ -14,10 +14,16 @@ class PostsController < ApplicationController
     @post = Post.new
   end
 
-  def create
-    posts = Post.create!(post_params)
-    flash[:notice] = "投稿しました"
-    redirect_to posts
+   def create
+    # ***** 以下を修正 *****
+    @post = Post.new(post_params)
+    if @post.save
+      redirect_to @post, notice: "投稿しました"
+    else
+      flash.now[:alert] = "投稿に失敗しました"
+      render :new
+    end
+    # ***** 以上を修正 *****
   end
 
   def edit
@@ -28,9 +34,12 @@ class PostsController < ApplicationController
   def update
     # post = Post.find(params[:id])
     # before_action定義したのでコメント(@を追加しているので注意)
-    @post.update!(post_params)
-    flash[:notice] = "更新しました"
-    redirect_to @post
+    if @post.update(post_params)
+      redirect_to @post, notice: "更新しました"
+    else
+      flash.now[:alert] = "更新に失敗しました"
+      render :edit
+    end
   end
 
   def destroy
